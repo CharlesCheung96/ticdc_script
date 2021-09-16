@@ -1,0 +1,10 @@
+#Rule
+#(1) we use regex
+#(2) s///g is the sed replace rule
+#(3) use \(.*\) to extract the specific unchanged string
+
+
+# Example: c.Assert(ddl, check.IsNil) ===>  require.Nil(t, ddl)
+s/.*c.Assert(\(.*\), check.IsNil).*/\trequire.Nil(t, \1)/g
+
+
