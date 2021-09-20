@@ -17,28 +17,30 @@ Usage() {
 
 GetAllTestFile() {
 	replaceDirOrFile=$1
-	echo "1:"$replaceDirOrFile
+	#echo "1:"$replaceDirOrFile
 	if [ -f $replaceDirOrFile ]
 	then
    		allTestFiles=$replaceDirOrFile
-		echo "2:"$allTestFiles
+		#echo "2:"$allTestFiles
 	elif [ -d $replaceDirOrFile ]
 	then
-		allTestFiles=$(find $replaceDirOrFil -name "*_test.go")
-		echo "3:"$allTestFiles
+		allTestFiles=$(find "$replaceDirOrFile" -name "*_test.go")
+		#echo "3:"$allTestFiles
 	fi
 }
 
+#when using read allPatterns, ',' will be the seperate char, why?
 GetAllPatterns() {
 	patternFile=$1
-	echo "4:"$patternFile
-	allPatterns=$(cat $patternFile|grep -v '^#'|grep -v '^$') 
+	#echo "4:"$patternFile
+	allPatterns=$(cat $patternFile|grep -Ev "^#|^$"|while read line;do echo $line;done) 
+	#echo "allPatterns:"${allPatterns[0]}
 }
 
 
-echo "paraNum:"$#
-echo "para1:"$1
-echo "para2:"$2
+#echo "paraNum:"$#
+#echo "para1:"$1
+#echo "para2:"$2
 
 
 paraNum=$#
@@ -59,27 +61,32 @@ then
 fi
 
 GetAllTestFile $replaceDirOrFile
-GetAllPatterns $patternFile
+#GetAllPatterns $patternFile
 
-echo "5:"$allTestFiles
-echo "6:"$allPatterns
+#echo "5:"$allTestFiles
+#echo "6:"$allPatterns
 
+execSed=
 for file in $allTestFiles
 do
-	echo "file:"$file
+	#echo $i
+	echo "dealing file:"$file
 	#concat the sed command as example 
-	sedString="sed -i "
-	for pat in $allPatterns
+	execSed="sed -i "
+	while read line
 	do
-		echo "pat:"$pat
-		sedString=$sedString" -e \'"$pat"\'"
-		echo $sedString
-	done
+		#echo $line
+		if [[ $line =~ ^#.* ]] || [[ $line =~ ^$ ]]
+		then
+			continue
+		fi
+		execSed=$execSed' -e "'$line'"'
+	done < $patternFile
 
-	sedString="$sedString  $file"
-	echo $sedString
+	#echo "sed:"$execSed
 
-	#exec $sedString 
-	`$sedString`
+	execSed=$execSed" $file"
+	echo $execSed 
+	echo $execSed | sh 
+	
 done
-

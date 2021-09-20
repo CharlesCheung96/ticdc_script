@@ -3,8 +3,33 @@
 #(2) s///g is the sed replace rule
 #(3) use \(.*\) to extract the specific unchanged string
 
+#Example: c *check.C ===> t *testing.T
+s/c \\*check.C/t \\*testing.T/g
 
-# Example: c.Assert(ddl, check.IsNil) ===>  require.Nil(t, ddl)
-s/.*c.Assert(\(.*\), check.IsNil).*/\trequire.Nil(t, \1)/g
+#Example: github.com/pingcap/check ===> github.com/stretchr/testify/require
+s/github.com\\/pingcap\\/check/github.com\\/stretchr\\/testify\\/require/g
 
+#Example: github.com/pingcap/tidb/util/testkit ===> github.com/pingcap/tidb/testkit
+s/github.com\\/pingcap\\/tidb\\/util\\/testkit/github.com\\/pingcap\\/tidb\\/testkit/g
+
+#Example: c.Assert(ddl, check.IsNil) ===>  require.Nil(t, ddl)
+s/.*c.Assert(\\(.*\\), check.IsNil).*/require.Nil(t, \\1)/g
+
+#Example: c.Assert(tableID, check.Equals, int64(12345)) ===> require.Equal(t,tableID, int64(12345))
+s/.*c.Assert(\\(.*\\), check.Equals, \\(.*\\)).*/require.Equal(t, \\1, \\2)/g
+
+#Example: c.Assert(tableID, check.DeepEquals, int64(12345)) ===> require.Equal(t,tableID, int64(12345))
+s/.*c.Assert(\\(.*\\), check.DeepEquals, \\(.*\\)).*/require.Equal(t, \\1, \\2)/g
+
+#Example: c.Assert(ok, check.IsTrue) ===> require.True(t, ok)
+s/.*c.Assert(\\(.*\\), check.IsTrue).*/require.True(t, \\1)/g
+
+#Example: c.Assert(ok, check.IsFalse) ===> require.False(t, ok)
+s/.*c.Assert(\\(.*\\), check.IsFalse).*/require.False(t, \\1)/g
+
+#Example: c.Assert(list, HasLen, 5) ===> require.Len(t, list, 5)
+s/.*c.Assert(\\(.*\\), check.HasLen, \\(.*\\)).*/require.Len(t, \\1, \\2)/g
+
+#Example: c.Assert(iface, NotNil) ===> require.NotNil(t, iface)
+s/.*c.Assert(\\(.*\\), check.NotNil).*/require.NotNil(t, \\1)/g
 
