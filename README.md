@@ -1,3 +1,6 @@
+### Overview
+Ticdc is migrating its test-infra from gocheck to testify, and this Script is used for it. We can add other sed regexs to replace some repetitive and boring works.
+
 ### Usage
 ```
 	./testify_replace.sh replace_dir(file)  pattern_file
