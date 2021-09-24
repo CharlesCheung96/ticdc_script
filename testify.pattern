@@ -56,5 +56,5 @@ s/.*c.Assert(\\(.*\\), check.LessEqual, \\(.*\\)).*/require.LessOrEqual(t, \\1, 
 s/.*c.Assert(\\(.*\\), check.Equals, \\(.*\\), check.Commentf(\\(.*\\), \\(.*\\))).*/require.Equal(t, \\1, \\2, \\3, \\4)/g
 
 #Example: c.Assert(err, check.ErrorMatches, "test error") ===> require.Regexp(t, "test.*", fmt.Errorf("test error"))
-s/.*c.Assert(\\(.*\\), check.ErrorMatches, \\(.*\\)).*/require.Regexp(t, \\1, \\2)/g
+s/.*c.Assert(\\(.*\\), check.ErrorMatches, \\(.*\\)).*/require.Regexp(t, \\2, \\1)/g
 
