@@ -87,6 +87,7 @@ do
 
 	execSed=$execSed" $file"
 	echo $execSed 
-	echo $execSed | sh 
-	
+	echo $execSed | sh
+
+	useless=$(go fmt $file)
 done
