@@ -15,5 +15,8 @@ Ticdc is migrating its test-infra from gocheck to testify, and this Script is us
 	./testify_replace.sh ./cdc/kv
 ```
 
+### Support Pattern
+[TODO]
+
 ### Extention
 Refer to the examples in the testify.pattern
