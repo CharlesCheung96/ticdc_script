@@ -33,7 +33,7 @@ s/.*c.Assert(\\(.*\\), check.Equals, \\(.*\\)).*/require.Equal(t, \\2, \\1)/g
 #Example: c.Assert(job.From, check.Not(check.Equals), job.To)
 s/.*c.Assert(\\(.*\\), check.Not(check.Equals), \\(.*\\)).*/require.NotEqual(t, \\2, \\1)/g
 
-#Example: c.Assert(tableID, check.Equals, int64(12345), check.Commentf("%v", cs)) ===> require.Equal(t,tableID, int64(12345), "v", cs)
+#Example: c.Assert(tableID, check.Equals, int64(12345), check.Commentf("%v", cs)) ===> require.Equal(t,tableID, int64(12345), "%v", cs)
 s/.*c.Assert(\\(.*\\), check.Equals, \\(.*\\), check.Commentf(\\(.*\\), \\(.*\\))).*/require.Equal(t, \\2, \\1, \\3, \\4)/g
 
 #Example: c.Assert(tableID, check.DeepEquals, int64(12345)) ===> require.Equal(t,tableID, int64(12345))
