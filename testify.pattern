@@ -36,6 +36,9 @@ s/.*c.Assert(\\(.*\\), check.Not(check.Equals), \\(.*\\)).*/require.NotEqual(t, 
 #Example: c.Assert(tableID, check.Equals, int64(12345), check.Commentf("%v", cs)) ===> require.Equal(t,tableID, int64(12345), "%v", cs)
 s/.*c.Assert(\\(.*\\), check.Equals, \\(.*\\), check.Commentf(\\(.*\\), \\(.*\\))).*/require.Equal(t, \\2, \\1, \\3, \\4)/g
 
+#Example: c.Assert(tableID, check.DeepEquals, int64(12345), check.Commentf("%v", cs)) ===> require.Equal(t,tableID, int64(12345), "%v", cs)
+s/.*c.Assert(\\(.*\\), check.DeepEquals, \\(.*\\), check.Commentf(\\(.*\\), \\(.*\\))).*/require.Equal(t, \\2, \\1, \\3, \\4)/g
+
 #Example: c.Assert(tableID, check.DeepEquals, int64(12345)) ===> require.Equal(t,tableID, int64(12345))
 s/.*c.Assert(\\(.*\\), check.DeepEquals, \\(.*\\)).*/require.Equal(t, \\2, \\1)/g
 
@@ -68,3 +71,6 @@ s/.*c.Assert(\\(.*\\), check.ErrorMatches, \\(.*\\)).*/require.Regexp(t, \\2, \\
 
 #Example: c.Fatalf("locking finished unexpectedly")  ===> require.FailNow(t, "locking finished unexpectedly")
 s/.*c.Fatalf(\\(.*\\)).*/require.FailNow(t, \\1)/g
+
+#Example: c.Assert(map[int]bool{4: true, 6: true}, check.HasKey, n.index) ===> require.Contains(n.t, map[int]bool{4: true, 6: true}, n.index)
+s/.*c.Assert(\\(.*\\), check.HasKey, \\(.*\\)).*/require.Contains(t, \\1, \\2)/g
