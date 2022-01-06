@@ -37,17 +37,25 @@ GetAllPatterns() {
 	#echo "allPatterns:"${allPatterns[0]}
 }
 
+GetFlatform() {
+    platformStr=`uname  -a`
+    if [[ $platformStr =~ "Darwin" ]];then
+        platform="Darwin"
+    else
+        platform="linux"
+    fi
+}
 
 #echo "paraNum:"$#
 #echo "para1:"$1
 #echo "para2:"$2
-
 
 paraNum=$#
 replaceDirOrFile=$1
 patternFile='testify.pattern'
 allTestFiles=
 allPatterns=
+platform=
 
 if [[ $paraNum -ne 1 && $paraNum -ne 2 ]]
 then
@@ -60,6 +68,7 @@ then
 	patternFile=$2
 fi
 
+GetFlatform
 GetAllTestFile $replaceDirOrFile
 #GetAllPatterns $patternFile
 
@@ -71,8 +80,12 @@ for file in $allTestFiles
 do
 	#echo $i
 	echo "dealing file:"$file
-	#concat the sed command as example 
-	execSed="sed -i "
+	#concat the sed command as example
+    if [[ $platform == "Darwin" ]];then
+        execSed="sed -i ''"
+    else
+	    execSed="sed -i"
+    fi
 	while read line
 	do
 		#echo $line
